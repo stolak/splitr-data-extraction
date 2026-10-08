@@ -4,7 +4,7 @@
   "description": "Invoice data extraction service",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node src/server.ts",
+    "dev": "npx kill-port 5003 && nodemon --exec ts-node src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },
@@ -16,6 +16,7 @@
     "multer": "^2.0.2",
     "pdf-parse": "^2.4.5",
     "sharp": "^0.34.5",
+    "swagger-ui-express": "^5.0.1",
     "tesseract.js": "^7.0.0"
   },
   "devDependencies": {
@@ -23,6 +24,7 @@
     "@types/express": "^5.0.3",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.5.2",
+    "@types/swagger-ui-express": "^4.1.8",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
