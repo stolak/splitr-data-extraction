@@ -4,9 +4,11 @@ import { cleanText } from "../utils/extractionText";
 import { ocrService } from "./ocrService";
 import { pdfExtractionService } from "./pdfExtractionService";
 import { parseInvoice } from "./invoiceParserService";
+import { openaiTextExtractionService } from "./openaiTextExtractionService";
+import { TextExtractionResult } from "./openaiTextExtractionService";
 
 export class InvoiceExtractionService {
-  async extract(buffer: Buffer, options: ExtractionOptions = {}): Promise<ExtractedInvoice> {
+  async extract(buffer: Buffer, options: ExtractionOptions = {}): Promise<TextExtractionResult> {
     const type = await detectFileType(buffer);
     if (!type) {
       throw new Error("Unsupported or invalid file. Only PDF, PNG and JPEG are accepted.");
@@ -21,7 +23,8 @@ export class InvoiceExtractionService {
     // console.log("result", result.text);
     const text = cleanText(result.text);
     if (!text) throw new Error("No readable text was detected in the image.");
-    return parseInvoice(text, "ocr", 1, true, result.confidence, options.includeRawText);
+    return openaiTextExtractionService.extract(text);
+    // return parseInvoice(text, "ocr", 1, true, result.confidence, options.includeRawText);
   }
 
   private async extractPdf(buffer: Buffer, options: ExtractionOptions) {
@@ -29,14 +32,15 @@ export class InvoiceExtractionService {
     const text = cleanText(result.text);
     // console.log("text", result.text);
     if (!text) throw new Error("No readable text was detected in the PDF.");
-    return parseInvoice(
-      text,
-      result.ocrUsed ? "ocr" : "pdf-text",
-      result.pages,
-      result.ocrUsed,
-      result.ocrConfidence,
-      options.includeRawText
-    );
+    return openaiTextExtractionService.extract(text);
+    // return parseInvoice(
+    //   text,
+    //   result.ocrUsed ? "ocr" : "pdf-text",
+    //   result.pages,
+    //   result.ocrUsed,
+    //   result.ocrConfidence,
+    //   options.includeRawText
+    // );
   }
 }
 

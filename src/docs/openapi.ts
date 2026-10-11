@@ -102,6 +102,49 @@ export const openApiSpec = {
         },
       },
     },
+    "/extract/text": {
+      post: {
+        tags: ["Extraction"],
+        summary: "Extract merchant and total from text",
+        description:
+          "Sends invoice or receipt text to OpenAI and returns the merchant name, total amount, and the original text.",
+        operationId: "extractText",
+        requestBody: {
+          required: true,
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/TextExtractionRequest" },
+            },
+          },
+        },
+        responses: {
+          "200": {
+            description: "Text extracted",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/TextExtractionResult" },
+              },
+            },
+          },
+          "400": {
+            description: "Missing text or text too long",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/ErrorResponse" },
+              },
+            },
+          },
+          "502": {
+            description: "OpenAI extraction failed",
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/ErrorResponse" },
+              },
+            },
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: {
@@ -110,6 +153,25 @@ export const openApiSpec = {
         required: ["status"],
         properties: {
           status: { type: "string", example: "OK" },
+        },
+      },
+      TextExtractionRequest: {
+        type: "object",
+        required: ["text"],
+        properties: {
+          text: {
+            type: "string",
+            description: "Invoice or receipt text to extract.",
+          },
+        },
+      },
+      TextExtractionResult: {
+        type: "object",
+        required: ["merchantName", "totalAmount", "text"],
+        properties: {
+          merchantName: { type: "string", nullable: true, example: "Acme Supplies" },
+          totalAmount: { type: "number", nullable: true, example: 128.4 },
+          text: { type: "string", description: "The text that was submitted." },
         },
       },
       ErrorResponse: {

@@ -19,4 +19,13 @@ export const extractionConfig = {
   get maxUploadBytes(): number {
     return positiveNumber("MAX_UPLOAD_BYTES", 10 * 1024 * 1024);
   },
+  get openaiApiKey(): string {
+    return process.env.OPENAI_API_KEY?.trim() || "";
+  },
+  get openaiModel(): string {
+    return process.env.OPENAI_MODEL?.trim() || "gpt-5.4";
+  },
+  get maxTextChars(): number {
+    return positiveNumber("MAX_TEXT_CHARS", 100_000);
+  },
 };
