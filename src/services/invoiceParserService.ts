@@ -255,7 +255,7 @@ function extractItems(textLines: string[], totalAmount: number | null): InvoiceI
 
 export function parseInvoice(
   text: string,
-  source: "pdf-text" | "ocr",
+  source: "ocr",
   pages: number,
   ocrUsed: boolean,
   ocrConfidence: number,

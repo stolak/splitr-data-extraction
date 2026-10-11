@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import multer from "multer";
 import { extractionConfig } from "../services/extractionConfig";
 
-const allowedTypes = ["application/pdf", "image/png", "image/jpeg"];
+const allowedTypes = ["image/png", "image/jpeg"];
 
 function invoiceUploader() {
   return multer({
@@ -10,7 +10,7 @@ function invoiceUploader() {
     limits: { fileSize: extractionConfig.maxUploadBytes, files: 1 },
     fileFilter: (_req, file, callback) => {
       if (!allowedTypes.includes(file.mimetype)) {
-        callback(new Error("Only PDF, PNG and JPEG files are accepted."));
+        callback(new Error("Only PNG and JPEG images are accepted."));
         return;
       }
       callback(null, true);

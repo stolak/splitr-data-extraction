@@ -8,7 +8,7 @@ export const openApiSpec = {
     title: "Splitr Data Extraction",
     version: "1.0.0",
     description:
-      "Extracts merchant, amount, date, and line items from invoice PDFs and images.",
+      "Extracts merchant, amount, date, and line items from invoice images.",
   },
   servers: [
     {
@@ -42,7 +42,7 @@ export const openApiSpec = {
       post: {
         tags: ["Extraction"],
         summary: "Extract invoice data",
-        description: `Upload a single PDF, PNG, or JPEG invoice (max ${maxUploadMb} MB). The file field name is \`invoice\`.`,
+        description: `Upload a single PNG or JPEG invoice (max ${maxUploadMb} MB). The file field name is \`invoice\`.`,
         operationId: "extractInvoice",
         parameters: [
           {
@@ -67,7 +67,7 @@ export const openApiSpec = {
                   invoice: {
                     type: "string",
                     format: "binary",
-                    description: "Invoice file. Accepted types: PDF, PNG, JPEG.",
+                    description: "Invoice image. Accepted types: PNG, JPEG.",
                   },
                 },
               },
@@ -243,7 +243,7 @@ export const openApiSpec = {
         type: "object",
         required: ["source", "pages", "ocrUsed"],
         properties: {
-          source: { type: "string", enum: ["pdf-text", "ocr"] },
+          source: { type: "string", enum: ["ocr"] },
           pages: { type: "integer", minimum: 1 },
           ocrUsed: { type: "boolean" },
           rawText: {

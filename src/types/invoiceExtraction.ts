@@ -1,4 +1,4 @@
-export type SupportedFileType = "pdf" | "png" | "jpeg";
+export type SupportedFileType = "png" | "jpeg";
 
 export type SupportedCurrency = "CAD" | "USD" | "NGN" | "GBP" | "EUR" | "UNKNOWN";
 
@@ -25,7 +25,7 @@ export interface ExtractedInvoice {
     overall: number;
   };
   extraction: {
-    source: "pdf-text" | "ocr";
+    source: "ocr";
     pages: number;
     ocrUsed: boolean;
     rawText?: string;
